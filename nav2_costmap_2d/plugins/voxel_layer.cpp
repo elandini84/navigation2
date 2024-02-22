@@ -95,6 +95,10 @@ void VoxelLayer::onInitialize()
     voxel_pub_ = node->create_publisher<nav2_msgs::msg::VoxelGrid>(
       "voxel_grid", custom_qos);
     voxel_pub_->on_activate();
+
+    cloud_pub_= node->create_publisher<sensor_msgs::msg::PointCloud2>(
+      "cloud_pub_", custom_qos);
+    cloud_pub_->on_activate();
   }
 
   clearing_endpoints_pub_ = node->create_publisher<sensor_msgs::msg::PointCloud2>(
@@ -172,6 +176,7 @@ void VoxelLayer::updateBounds(
     raytraceFreespace(clearing_observations[i], min_x, min_y, max_x, max_y);
   }
 
+  RCLCPP_WARN(logger_,"TESTPRINT Thers is the obs size: %lu", observations.size());
   // place the new obstacles into a priority queue... each with a priority of zero to begin with
   for (std::vector<Observation>::const_iterator it = observations.begin(); it != observations.end();
     ++it)
@@ -179,6 +184,7 @@ void VoxelLayer::updateBounds(
     const Observation & obs = *it;
 
     const sensor_msgs::msg::PointCloud2 & cloud = *(obs.cloud_);
+    cloud_pub_->publish(cloud);
 
     double sq_obstacle_max_range = obs.obstacle_max_range_ * obs.obstacle_max_range_;
     double sq_obstacle_min_range = obs.obstacle_min_range_ * obs.obstacle_min_range_;

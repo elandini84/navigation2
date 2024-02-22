@@ -405,6 +405,9 @@ ObstacleLayer::pointCloud2Callback(
   // buffer the point cloud
   buffer->lock();
   buffer->bufferCloud(*message);
+  RCLCPP_WARN(
+      logger_,
+      "TESTPRINT Received pointCloud2");
   buffer->unlock();
 }
 

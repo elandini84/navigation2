@@ -144,6 +144,7 @@ protected:
 
   bool publish_voxel_;
   rclcpp_lifecycle::LifecyclePublisher<nav2_msgs::msg::VoxelGrid>::SharedPtr voxel_pub_;
+  rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::PointCloud2>::SharedPtr cloud_pub_;
   nav2_voxel_grid::VoxelGrid voxel_grid_;
   double z_resolution_, origin_z_;
   int unknown_threshold_, mark_threshold_, size_z_;
